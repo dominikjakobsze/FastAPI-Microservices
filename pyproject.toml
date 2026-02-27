@@ -1,0 +1,66 @@
+# Konfiguracja dla różnych narzędzi Pythona
+# Szczegółowa dokumentacja: https://python-poetry.org/docs/pyproject/
+
+[tool.ruff]
+# Długość linii - zgodna ze standardem Black.
+line-length = 88
+
+# Wybór zestawów reguł lintingowych.
+# Odkomentuj lub dodaj/usuń reguły w miarę potrzeb projektu.
+lint.select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # Pyflakes
+    "I", # isort (sortowanie importów)
+    "UP", # pyupgrade (automatyczna aktualizacja składni)
+    "C4", # flake8-comprehensions (sugestie dotyczące list/dict/set comprehensions)
+    "B", # flake8-bugbear (poszukiwanie potencjalnych błędów programistycznych)
+    "A", # flake8-builtins (ostrzeżenia przed nadpisywaniem wbudowanych funkcji/typów)
+    "ERA", # eradicate (usuwanie zakomentowanego kodu)
+    "N", # pep8-naming (konwencje nazewnictwa PEP8)
+    "D", # pydocstyle (sprawdzanie poprawności docstringów)
+]
+
+# Reguły do zignorowania.
+# Zazwyczaj ignoruje się pewne reguły docstringów, jeśli nie są ściśle wymagane,
+# lub te, które wchodzą w konflikt z automatycznym formatowaniem (np. Black).
+lint.ignore = [
+    "D100", # Missing docstring in public module (często pomijane dla małych plików)
+    "D104", # Missing docstring in public package (__init__.py)
+    "D105", # Missing docstring in magic method
+    "D203", # 1 blank line required before class docstring (konflikt z Black)
+    "D213", # Multi-line docstring summary should start on the second line (konflikt z Black)
+    "ERA001", # Allow commented-out code, as it can be useful in generated files like alembic/env.py
+]
+
+# --- Konfiguracja Mypy ---
+[tool.mypy]
+# Wersja Pythona, której mypy ma używać do analizy typów.
+# WAŻNE: Zastąp "3.12" na wersję Pythona, której używasz w projekcie (np. "3.14").
+python_version = "3.14"
+
+# Ignoruje brakujące importy dla bibliotek, które nie mają swoich stubów typów.
+# Jest to dobre na początek, aby nie być zalewanym błędami z bibliotek trzecich.
+ignore_missing_imports = true
+
+# Ostrzega, jeśli funkcja z adnotacją "Any" zwraca "Any".
+warn_return_any = true
+
+# Ostrzega, jeśli w pliku konfiguracyjnym mypy znajduje się nieużywana sekcja.
+warn_unused_configs = true
+
+# Ostrzega o nieosiągalnym kodzie.
+warn_unreachable = true
+
+# --- Opcjonalne, bardziej rygorystyczne ustawienia Mypy (odkomentuj w miarę potrzeb) ---
+# Te ustawienia mogą być włączane stopniowo, gdy codebase dojrzeje i będzie miał więcej adnotacji typów.
+disallow_untyped_defs = true         # Zabrania funkcji bez adnotacji typów.
+no_implicit_optional = true          # Wymaga jawnego określenia Optional[T] zamiast T | None.
+check_untyped_defs = true            # Sprawdza funkcje bez adnotacji typów w zakresie typów.
+# warn_no_return = true                # Ostrzega, jeśli funkcja deklaruje zwrot, ale go nie ma.
+# disallow_incomplete_defs = true      # Zabrania niekompletnych adnotacji typów w funkcjach.
+# disallow_untyped_calls = true        # Zabrania wywołań funkcji bez adnotacji typów.
+warn_redundant_casts = true          # Ostrzega o zbędnych rzutowaniach typów.
+warn_unused_ignores = true           # Ostrzega o nieużywanych komentarzach # type: ignore.
+# strict_optional = true               # Bardziej rygorystyczne traktowanie None.
+# strict_equality = true               # Bardziej rygorystyczne sprawdzanie równości typów.
